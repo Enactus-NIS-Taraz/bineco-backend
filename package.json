@@ -1,0 +1,34 @@
+{
+    "name": "bineco-backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.9.10",
+        "passport": "^0.4.1",
+        "passport-jwt": "^4.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.3"
+    },
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Enactus-NIS-Taraz/bineco-backend.git"
+    },
+    "keywords": [],
+    "author": "arsen",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Enactus-NIS-Taraz/bineco-backend/issues"
+    },
+    "homepage": "https://github.com/Enactus-NIS-Taraz/bineco-backend#readme"
+}
