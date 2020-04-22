@@ -2,10 +2,10 @@ const { Schema, model } = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const userSchema = new Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    surName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    passwordHash: { type: String, required: true },
     firstName: { type: String, required: true },
+    surName: { type: String, required: true },
     permission: {
         chat: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
         news: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
