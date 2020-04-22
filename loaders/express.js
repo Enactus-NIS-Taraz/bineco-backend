@@ -1,5 +1,6 @@
 const express = require("express");
-const connectDB = require('./db');
+const connectDB = require("./db");
+const auth= require("../middlewares/passport");
 module.exports = () => {
     // Создание экземпляра приложения
     const app = express();
@@ -8,7 +9,8 @@ module.exports = () => {
     // Парсинг формы
     const bodyParser = require("../middlewares/body-parser");
     bodyParser(app);
-
+    // Инициализация passport
+    auth.initialize();
     // Подключения маршрутизаторов
     const router = require("../routes/index");
     router(app);

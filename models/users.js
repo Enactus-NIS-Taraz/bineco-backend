@@ -11,10 +11,6 @@ const userSchema = new Schema({
         news: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
         settings: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
     },
-    accessToken: String,
-    accessTokenExpiredAt: Date,
-    refreshToken: String,
-    refreshTokenExpiredAt: Date,
 });
 
 // Сравнить пороли

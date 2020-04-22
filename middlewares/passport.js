@@ -4,10 +4,30 @@ const { ExtractJwt, Strategy } = require("passport-jwt");
 
 const initialize = () => {
     passport.use("jwt", getStrategy());
+    return passport.initialize();
 };
 
-const authenticate = (callback) =>
-    passport.authenticate("jwt", { session: false }, callback);
+const authenticate = (req, res, next) => {
+    passport.authenticate("jwt", { session: false }, (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+
+        if (!user) {
+            if (info.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message:
+                        "Your token has expired. Please generate a new one",
+                });
+            } else {
+                return res.status(401).json({ message: info.message });
+            }
+        }
+
+        req.user = user;
+        return next();
+    });
+};
 
 const getStrategy = () => {
     const params = {
@@ -16,12 +36,13 @@ const getStrategy = () => {
         passReqToCallback: true,
     };
 
-    return new Strategy(params, async (req, payload, done) => {
-        await User.findOne({ username: payload.username }, (err, user) => {
+    return new Strategy(params, async (payload, done) => {
+        await User.findOne({ email: payload.email }, (err, user) => {
             if (err) {
                 return done(err);
             }
-            if (user === null) {
+
+            if (!user) {
                 return done(null, false, {
                     message: "The user in the token was not found",
                 });
