@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcryptjs");
+
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -16,6 +17,7 @@ const userSchema = new Schema({
     refreshTokenExpiredAt: Date,
 });
 
+// Сравнить пороли
 userSchema.methods.comparePassword = function (candidatePassword) {
     const password = this.password;
     return new Promise((resolve, reject) => {
