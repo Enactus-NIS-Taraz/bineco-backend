@@ -8,7 +8,7 @@ const initialize = () => {
 };
 
 const authenticate = (req, res, next) => {
-    passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    return passport.authenticate("jwt", { session: false }, (err, user, info) => {
         if (err) {
             return next(err);
         }
