@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
         const { email, password } = req.body;
 
         const user = await UserModel.findOne({ email });
-        const isPasswordMatch = UserModel.comparePassword(password);
+        const isPasswordMatch = await user.comparePassword(password);
 
         if (!user || !isPasswordMatch) {
             return res
@@ -22,8 +22,9 @@ module.exports = async (req, res) => {
 
         const token = genToken(payload);
 
-        return res.status(200).json({ user, ...token });
+        return res.status(200).json({ ...payload, ...token });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Ошибка сервера" });
     }
 };
