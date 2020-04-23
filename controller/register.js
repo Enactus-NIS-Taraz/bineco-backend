@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 
         await newUser.save();
 
-        res.status(500).json({
+        res.status(200).json({
             data: newUser,
             message: "Пользователь создан",
         });
