@@ -5,12 +5,8 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
     firstName: { type: String, required: true },
-    surName: { type: String, required: true },
-    permission: {
-        chat: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
-        news: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
-        settings: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
-    },
+    lastName: { type: String, required: true },
+    created_at: { type: String },
 });
 
 userSchema.pre("save", function (next) {

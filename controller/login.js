@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
         id: user._id,
         email: user.email,
         firstName: user.firstName,
-        surName: user.surName,
+        lastName: user.lastName,
     };
 
     const token = genToken(payload);
