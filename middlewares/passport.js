@@ -8,25 +8,29 @@ const initialize = () => {
 };
 
 const authenticate = (req, res, next) => {
-    return passport.authenticate("jwt", { session: false }, (err, user, info) => {
-        if (err) {
-            return next(err);
-        }
-
-        if (!user) {
-            if (info.name === "TokenExpiredError") {
-                return res.status(401).json({
-                    message:
-                        "Your token has expired. Please generate a new one",
-                });
-            } else {
-                return res.status(401).json({ message: info.message });
+    return passport.authenticate(
+        "jwt",
+        { session: false },
+        (err, user, info) => {
+            if (err) {
+                return next(err);
             }
-        }
 
-        req.user = user;
-        return next();
-    });
+            if (!user) {
+                if (info.name === "TokenExpiredError") {
+                    return res.status(401).json({
+                        message:
+                            "Your token has expired. Please generate a new one",
+                    });
+                } else {
+                    return res.status(401).json({ message: info.message });
+                }
+            }
+
+            req.user = user;
+            return next();
+        }
+    );
 };
 
 const getStrategy = () => {
