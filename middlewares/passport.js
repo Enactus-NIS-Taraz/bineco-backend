@@ -50,7 +50,7 @@ const getStrategy = () => {
             if (err) {
                 return done(err);
             }
-            console.log(user);
+            
             if (!user) {
                 return done(null, false, {
                     message: "The user in the token was not found",
