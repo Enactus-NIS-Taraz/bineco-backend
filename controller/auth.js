@@ -1,5 +1,6 @@
 const UserModel = require("../models/users");
 const genToken = require("../helpers/token");
+const validate = require("../helpers/validate");
 
 module.exports = {
     login: async (req, res) => {
@@ -35,14 +36,7 @@ module.exports = {
         const { email, password, firstName, lastName } = req.body;
 
         try {
-            const candidateUser = await UserModel.findOne({ email });
-
-            if (candidateUser) {
-                res.status(400).json({
-                    message:
-                        "Такой пользователь существует, пожалуйста попробуйте ещё!",
-                });
-            }
+            await validate.register(req.body);
 
             const newUser = new UserModel({
                 email,
@@ -53,13 +47,15 @@ module.exports = {
 
             await newUser.save();
 
-            res.status(200).json({
+            res.status(201).json({
                 data: newUser,
                 message: "Пользователь создан",
             });
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "Ошибка сервера" });
+            const status = error.errStatus || 500;
+            const message = error.errMessage || "Ошибка сервера";
+
+            res.status(status).json({ message: message });
         }
     },
 };
