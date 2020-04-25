@@ -1,11 +1,11 @@
 const UserModel = require("../models/users");
 const genToken = require("../helpers/token");
-const validate = require("../helpers/validate");
+const check = require("../helpers/validate");
 
 module.exports = {
     login: async (req, res) => {
         try {
-            const user = await validate.login(req.body);
+            const user = await check.login(req.body);
 
             const payload = {
                 id: user._id,
@@ -29,7 +29,7 @@ module.exports = {
         const { email, password, firstName, lastName } = req.body;
 
         try {
-            await validate.register(req.body);
+            await check.register(req.body);
 
             const newUser = new UserModel({
                 email,
