@@ -39,3 +39,22 @@ module.exports.register = async ({ email, password, firstName, lastName }) => {
         );
     }
 };
+
+module.exports.login = async ({ email, password }) => {
+    if (!email) {
+        throw new MyError("Вы забыли заполнить Email!");
+    }
+
+    if (!password) {
+        throw new MyError("Вы забыли заполнить пороль!");
+    }
+
+    const user = await UserModel.findOne({ email });
+    const isPasswordMatch = await user.comparePassword(password);
+
+    if (!user || !isPasswordMatch) {
+        throw new MyError("Неверный email или пороль");
+    }
+
+    return user;
+};

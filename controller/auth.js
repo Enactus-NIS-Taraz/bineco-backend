@@ -5,16 +5,7 @@ const validate = require("../helpers/validate");
 module.exports = {
     login: async (req, res) => {
         try {
-            const { email, password } = req.body;
-
-            const user = await UserModel.findOne({ email });
-            const isPasswordMatch = await user.comparePassword(password);
-
-            if (!user || !isPasswordMatch) {
-                return res
-                    .status(400)
-                    .json({ message: "Неверный email или пороль" });
-            }
+            const user = await validate.login(req.body);
 
             const payload = {
                 id: user._id,
@@ -27,8 +18,10 @@ module.exports = {
 
             return res.status(200).json({ ...payload, ...token });
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "Ошибка сервера" });
+            const status = error.errStatus || 500;
+            const message = error.errMessage || "Ошибка сервера";
+
+            res.status(status).json({ message: message });
         }
     },
 
