@@ -1,2 +1,0 @@
-// Model users
-module.exports = () => {};
