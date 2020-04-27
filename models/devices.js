@@ -1,9 +1,15 @@
 const { Schema, model } = require("mongoose");
 
 const devicesSchema = new Schema({
-    location: { type: Object, required: true },
-    status: { type: Object, required: true },
-    owner: { type: String, required: true },
+    location: {
+        x: String,
+        y: String,
+    },
+    status: {
+        fullness: String,
+        active: Boolean,
+    },
+    owner: { type: String },
 });
 
 module.exports = model("Device", devicesSchema);
