@@ -12,7 +12,7 @@ module.exports = {
         const newDevice = new deviceModel(data);
 
         await newDevice.save();
-        res.json({ success: true });
+        res.status(201).json({ success: true });
     },
     update: async () => {},
     delete: async () => {},
