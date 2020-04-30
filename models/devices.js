@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const devicesSchema = new Schema({
+    deviceId: String,
     location: {
         x: String,
         y: String,

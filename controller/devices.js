@@ -14,12 +14,15 @@ module.exports = {
     },
     create: async (req, res) => {
         try {
-            const { x, y, fullness, active, owner } = req.body;
+            const { x, y, fullness, active, owner, deviceId } = req.body;
+
             const data = {
+                deviceId,
+                owner,
                 location: { x, y },
                 status: { fullness, active },
-                owner,
             };
+
             const newDevice = new deviceModel(data);
 
             await newDevice.save();
@@ -28,6 +31,23 @@ module.exports = {
             res.status(error.status || 500).json({ message: "Ошибка сервера" });
         }
     },
-    update: async () => {},
+    update: async (req, res) => {
+        const { x, y, fullness, active, owner, deviceId } = req.body;
+
+        const data = {
+            deviceId,
+            owner,
+            location: { x, y },
+            status: { fullness, active },
+        };
+
+        const updateDevice = await deviceModel.findOneAndUpdate(
+            deviceId,
+            data,
+            { new: true }
+        );
+
+        res.status(201).json(updateDevice);
+    },
     delete: async () => {},
 };
