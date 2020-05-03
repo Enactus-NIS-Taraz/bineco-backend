@@ -1,16 +1,13 @@
 const { Schema, model } = require("mongoose");
 
 const devicesSchema = new Schema({
-    deviceId: String,
     location: {
-        x: String,
-        y: String,
+        x: Number,
+        y: Number,
     },
-    status: {
-        fullness: String,
-        active: Boolean,
-    },
-    owner: { type: String },
+    fullness: String,
+    isActive: Boolean,
+    owner: String,
 });
 
 module.exports = model("Device", devicesSchema);

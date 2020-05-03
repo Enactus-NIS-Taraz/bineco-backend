@@ -21,13 +21,9 @@ module.exports = {
 
     create: async (req, res) => {
         try {
-            const { x, y, fullness, active, owner } = req.body;
-
-            const data = {
-                owner,
-                location: { x, y },
-                status: { fullness, active },
-            };
+            const { x, y, fullness, isActive, owner } = req.body;
+            console.log(req.body);
+            const data = { owner, location: { x, y }, fullness, isActive };
 
             const newDevice = new deviceModel(data);
 
