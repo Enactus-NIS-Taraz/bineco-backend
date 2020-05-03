@@ -22,7 +22,7 @@ module.exports = {
     create: async (req, res) => {
         try {
             const { x, y, fullness, isActive, owner } = req.body;
-            console.log(req.body);
+
             const data = {
                 location: { x, y },
                 fullness,
@@ -77,9 +77,9 @@ module.exports = {
 
     delete: async (req, res) => {
         try {
-            const { _id } = req.body;
+            const { deviceId } = req.params;
 
-            const deletedDevice = await deviceModel.findByIdAndDelete(_id);
+            const deletedDevice = await deviceModel.findByIdAndDelete(deviceId);
 
             res.status(200).json({
                 data: deletedDevice,
