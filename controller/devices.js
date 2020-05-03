@@ -23,7 +23,12 @@ module.exports = {
         try {
             const { x, y, fullness, isActive, owner } = req.body;
             console.log(req.body);
-            const data = { owner, location: { x, y }, fullness, isActive };
+            const data = {
+                location: { x, y },
+                fullness,
+                isActive,
+                owner,
+            };
 
             const newDevice = new deviceModel(data);
 
@@ -42,12 +47,12 @@ module.exports = {
 
     update: async (req, res) => {
         try {
-            const { x, y, fullness, active, owner, _id } = req.body;
+            const { x, y, fullness, isActive, _id } = req.body;
 
             const data = {
-                owner,
                 location: { x, y },
-                status: { fullness, active },
+                fullness,
+                isActive,
             };
 
             const updatedDevice = await deviceModel.findByIdAndUpdate(
