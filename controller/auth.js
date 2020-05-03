@@ -1,11 +1,25 @@
 const UserModel = require("../models/users");
 const genToken = require("../helpers/token");
-const check = require("../helpers/validate");
-
+const { validationResult } = require("express-validator");
 module.exports = {
     login: async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        const { email, password } = req.body;
         try {
-            const user = await check.login(req.body);
+            const user = await UserModel.findOne({ email });
+            const isPasswordMatch = await user.comparePassword(password);
+
+            if (!user || !isPasswordMatch) {
+                return res.status(400).json({
+                    error: true,
+                    message: "Неверный логин или пороль",
+                });
+            }
 
             const payload = {
                 id: user._id,
@@ -16,20 +30,30 @@ module.exports = {
 
             const token = genToken(payload);
 
-            return res.status(200).json({ ...payload, ...token });
+            res.status(200).json({ ...payload, ...token });
         } catch (error) {
-            const status = error.errStatus || 500;
-            const message = error.errMessage || "Ошибка сервера";
-
-            res.status(status).json({ message: message });
+            res.status(500).json({ message: "Произошла какая-та ошибка" });
         }
     },
 
     register: async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
         const { email, password, firstName, lastName } = req.body;
 
         try {
-            await check.register(req.body);
+            const user = await UserModel.findOne({ email });
+
+            if (user) {
+                return res.status(400).json({
+                    message:
+                        "Такой пользователь существует, пожалуйста попробуйте ещё!",
+                });
+            }
 
             const newUser = new UserModel({
                 email,
@@ -40,15 +64,12 @@ module.exports = {
 
             await newUser.save();
 
-            res.status(201).json({
-                data: newUser,
-                message: "Пользователь создан",
-            });
+            res.status(201).json({ newUser, message: "Пользователь создан" });
         } catch (error) {
-            const status = error.errStatus || 500;
-            const message = error.errMessage || "Ошибка сервера";
-
-            res.status(status).json({ message: message });
+            res.status(500).json({
+                error: true,
+                message: "Произошла какая-та ошибка",
+            });
         }
     },
 };
