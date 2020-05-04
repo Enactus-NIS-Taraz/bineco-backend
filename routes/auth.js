@@ -3,7 +3,10 @@ const { check } = require("express-validator");
 module.exports = (app) => {
     app.post(
         "/api/v1/login",
-        [check("email").isEmail(), check("password").isLength({ min: 7 })],
+        [
+            check("email").isEmail().normalizeEmail(),
+            check("password").isLength({ min: 7 }),
+        ],
         authController.login
     );
     app.post(
