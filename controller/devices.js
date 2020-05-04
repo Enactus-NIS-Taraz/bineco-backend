@@ -26,10 +26,10 @@ module.exports = {
         }
 
         try {
-            const { x, y, fullness, isActive, owner } = req.body;
-
+            const { location, fullness, isActive, owner } = req.body;
+            
             const data = {
-                location: { x, y },
+                location,
                 fullness,
                 isActive,
                 owner,
@@ -56,13 +56,12 @@ module.exports = {
         }
 
         try {
-            const { x, y, fullness, isActive, _id } = req.body;
+            const { location, fullness, isActive, _id } = req.body;
 
             const data = {
-                location: { x, y },
+                location,
                 fullness,
                 isActive,
-                owner,
             };
 
             const updatedDevice = await deviceModel.findByIdAndUpdate(

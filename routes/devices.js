@@ -1,6 +1,6 @@
 const deviceController = require("../controller/devices");
 const { authenticate } = require("../middlewares/passport");
-const { check } = require("express-validator");
+const { body, param } = require("express-validator");
 
 module.exports = (app) => {
     app.get("/api/v1/devices", authenticate, deviceController.show);
@@ -8,11 +8,11 @@ module.exports = (app) => {
         "/api/v1/devices/create",
         authenticate,
         [
-            check("x").isNumeric(),
-            check("y").isNumeric(),
-            check("fullness").isNumeric(),
-            check("isActive").isBoolean(),
-            check("owner").isEmail(),
+            body("location.x").isNumeric(),
+            body("location.y").isNumeric(),
+            body("fullness").isNumeric(),
+            body("isActive").isBoolean(),
+            body("owner").isEmail(),
         ],
         deviceController.create
     );
@@ -20,19 +20,18 @@ module.exports = (app) => {
         "/api/v1/devices/update",
         authenticate,
         [
-            check("x").isNumeric(),
-            check("y").isNumeric(),
-            check("fullness").isNumeric(),
-            check("isActive").isBoolean(),
-            check("owner").isEmail(),
-            check("_id").exists().not().isEmpty(),
+            body("location.x").isNumeric(),
+            body("location.y").isNumeric(),
+            body("fullness").isNumeric(),
+            body("isActive").isBoolean(),
+            body("_id").not().isEmpty(),
         ],
         deviceController.update
     );
     app.delete(
         "/api/v1/devices/:deviceId",
         authenticate,
-        [check("deviceId").exists().not().isEmpty()],
+        [param("deviceId").exists().not().isEmpty()],
         deviceController.delete
     );
 };
