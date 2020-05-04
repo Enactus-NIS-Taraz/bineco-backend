@@ -8,11 +8,11 @@ module.exports = (app) => {
         "/api/v1/devices/create",
         authenticate,
         [
-            body("location.x").isNumeric(),
-            body("location.y").isNumeric(),
-            body("fullness").isNumeric(),
-            body("isActive").isBoolean(),
-            body("owner").isEmail(),
+            body("location.x").trim().isNumeric(),
+            body("location.y").trim().isNumeric(),
+            body("fullness").trim().isNumeric(),
+            body("isActive").trim().isBoolean(),
+            body("owner").trim().isEmail().normalizeEmail(),
         ],
         deviceController.create
     );
@@ -20,10 +20,10 @@ module.exports = (app) => {
         "/api/v1/devices/update",
         authenticate,
         [
-            body("location.x").isNumeric(),
-            body("location.y").isNumeric(),
-            body("fullness").isNumeric(),
-            body("isActive").isBoolean(),
+            body("location.x").trim().isNumeric(),
+            body("location.y").trim().isNumeric(),
+            body("fullness").trim().isNumeric(),
+            body("isActive").trim().isBoolean(),
             body("_id").not().isEmpty(),
         ],
         deviceController.update
