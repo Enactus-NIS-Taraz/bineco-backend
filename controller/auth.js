@@ -32,7 +32,11 @@ module.exports = {
 
             res.status(200).json({ ...payload, ...token });
         } catch (error) {
-            res.status(500).json({ message: "Произошла какая-та ошибка" });
+            console.log(error);
+            res.status(500).json({
+                error: true,
+                message: error.message || "Произошла какая-та ошибка",
+            });
         }
     },
 
@@ -64,11 +68,12 @@ module.exports = {
 
             await newUser.save();
 
-            res.status(201).json({ newUser, message: "Пользователь создан" });
+            res.status(201).json({ newUser });
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 error: true,
-                message: "Произошла какая-та ошибка",
+                message: error.message || "Произошла какая-та ошибка",
             });
         }
     },

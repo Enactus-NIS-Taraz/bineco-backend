@@ -1,4 +1,5 @@
 const deviceModel = require("../models/devices");
+const { validationResult } = require("express-validator");
 
 module.exports = {
     show: async (req, res) => {
@@ -7,19 +8,23 @@ module.exports = {
 
             const devices = await deviceModel.find({ owner: email });
 
-            res.status(200).json({
-                data: devices,
-                message: "Успешно загрузились все устройства BinEco!",
-            });
+            res.status(200).json({ devices });
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 error: true,
-                message: "Произошла какая-та ошибка",
+                message: error.message || "Произошла какая-та ошибка",
             });
         }
     },
 
     create: async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
         try {
             const { x, y, fullness, isActive, owner } = req.body;
 
@@ -31,21 +36,25 @@ module.exports = {
             };
 
             const newDevice = new deviceModel(data);
-
             await newDevice.save();
-            res.status(201).json({
-                success: true,
-                message: "BinEco успешно создан!",
-            });
+
+            res.status(201).json({ newDevice });
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 error: true,
-                message: "Произошла какая-та ошибка",
+                message: error.message || "Произошла какая-та ошибка",
             });
         }
     },
 
     update: async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
         try {
             const { x, y, fullness, isActive, _id } = req.body;
 
@@ -53,6 +62,7 @@ module.exports = {
                 location: { x, y },
                 fullness,
                 isActive,
+                owner,
             };
 
             const updatedDevice = await deviceModel.findByIdAndUpdate(
@@ -63,32 +73,34 @@ module.exports = {
                 }
             );
 
-            res.status(201).json({
-                data: updatedDevice,
-                message: "Данные BinEco успешно обновлены!",
-            });
+            res.status(200).json({ updatedDevice });
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 error: true,
-                message: "Произошла какая-та ошибка",
+                message: error.message || "Произошла какая-та ошибка",
             });
         }
     },
 
     delete: async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
         try {
             const { deviceId } = req.params;
 
             const deletedDevice = await deviceModel.findByIdAndDelete(deviceId);
 
-            res.status(200).json({
-                data: deletedDevice,
-                message: "Успешно удалено!",
-            });
+            res.status(200).json({ deletedDevice });
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 error: true,
-                message: "Произошла какая-та ошибка",
+                message: error.message || "Произошла какая-та ошибка",
             });
         }
     },
