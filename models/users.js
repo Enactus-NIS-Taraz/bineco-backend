@@ -6,6 +6,9 @@ const userSchema = new Schema({
     passwordHash: { type: String, required: true, minlength: 7 },
     firstName: { type: String, required: true, minlength: 2 },
     lastName: { type: String, required: true, minlength: 2 },
+    permission: {
+        devices: { C: Boolean, R: Boolean, U: Boolean, D: Boolean },
+    },
     created_at: { type: String },
 });
 

@@ -35,7 +35,10 @@ const authenticate = (req, res, next) => {
         )(req, res, next);
     } catch (error) {
         console.log(error);
-        res.json({ message: "Ошибка сервера" });
+        res.status(500).json({
+            error: true,
+            message: error.message || "Произошла какая-та ошибка",
+        });
     }
 };
 
@@ -50,7 +53,7 @@ const getStrategy = () => {
             if (err) {
                 return done(err);
             }
-            
+
             if (!user) {
                 return done(null, false, {
                     message: "The user in the token was not found",
