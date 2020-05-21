@@ -7,7 +7,7 @@ const { authenticate } = require("../middlewares/passport");
 router.get("/", authenticate, async (req, res) => {
   try {
     const userId = req.user._id;
-    const devices = await Device.find({ owner: userId });
+    const devices = await Device.find({ ownerId: userId });
     res.status(200).json({ devices });
   } catch (error) {
     console.log(error);
@@ -18,7 +18,7 @@ router.get("/", authenticate, async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -26,19 +26,21 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const { location, fullness, isActive, owner } = req.body;
+    const { location, placeName, fullness, isActive } = req.body;
+    const ownerId = req.user._id;
 
     const data = {
       location,
+      placeName,
       fullness,
       isActive,
-      owner,
+      ownerId,
     };
 
-    const newDevice = new Device(data);
-    await newDevice.save();
+    const device = new Device(data);
+    await device.save();
 
-    res.status(201).json({ newDevice });
+    res.status(201).json({ device });
   } catch (error) {
     console.log(error);
     res.status(500).json({

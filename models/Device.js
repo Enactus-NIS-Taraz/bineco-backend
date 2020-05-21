@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const deviceSchema = new mongoose.Schema({
-  owner: mongoose.ObjectId,
+  ownerId: mongoose.ObjectId,
   location: [Number, Number],
   placeName: String,
   fullness: Number,
