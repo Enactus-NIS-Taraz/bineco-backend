@@ -26,7 +26,6 @@ userSchema.pre("update", function (next) {
     });
 });
 
-// Сравнить пороли
 userSchema.methods.comparePassword = function (candidatePassword) {
     const password = this.passwordHash;
     return new Promise((resolve, reject) => {
