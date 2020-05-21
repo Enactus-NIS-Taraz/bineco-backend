@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const deviceModel = require("../models/devices");
+const Device = require("../models/Device");
 const { validationResult } = require("express-validator");
 
 router.get("/", async (req, res) => {
   try {
     const { email } = req.user;
 
-    const devices = await deviceModel.find({ owner: email });
+    const devices = await Device.find({ owner: email });
 
     res.status(200).json({ devices });
   } catch (error) {
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
       owner,
     };
 
-    const newDevice = new deviceModel(data);
+    const newDevice = new Device(data);
     await newDevice.save();
 
     res.status(201).json({ newDevice });
@@ -65,7 +65,7 @@ router.patch("/:deviceId", async (req, res) => {
       isActive,
     };
 
-    const updatedDevice = await deviceModel.findByIdAndUpdate(_id, data, {
+    const updatedDevice = await Device.findByIdAndUpdate(_id, data, {
       new: true,
     });
 
@@ -89,7 +89,7 @@ router.delete("/:deviceId", async (req, res) => {
   try {
     const { deviceId } = req.params;
 
-    const deletedDevice = await deviceModel.findByIdAndDelete(deviceId);
+    const deletedDevice = await Device.findByIdAndDelete(deviceId);
 
     res.status(200).json({ deletedDevice });
   } catch (error) {

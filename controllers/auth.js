@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const UserModel = require("../models/users");
+const User = require("../models/User");
 const genToken = require("../helpers/token");
 const { validationResult } = require("express-validator");
 
@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
 
   const { email, password } = req.body;
   try {
-    const user = await UserModel.findOne({ email });
+    const user = await User.findOne({ email });
     const isPasswordMatch = await user.comparePassword(password);
 
     if (!user || !isPasswordMatch) {
@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
 
   try {
-    const user = await UserModel.findOne({ email });
+    const user = await User.findOne({ email });
 
     if (user) {
       return res.status(400).json({
@@ -60,7 +60,7 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    const newUser = new UserModel({
+    const newUser = new User({
       email,
       firstName,
       lastName,
