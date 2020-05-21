@@ -43,7 +43,7 @@ const authenticate = (req, res, next) => {
 
 const getStrategy = () => {
   const params = {
-    secretOrKey: config,
+    secretOrKey: config.secretKey,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   };
 

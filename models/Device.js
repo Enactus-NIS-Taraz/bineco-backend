@@ -1,13 +1,11 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-const devicesSchema = new Schema({
-    location: {
-        x: Number,
-        y: Number,
-    },
-    fullness: String,
-    isActive: Boolean,
-    owner: String,
+const deviceSchema = new mongoose.Schema({
+  owner: mongoose.ObjectId,
+  location: [Number, Number],
+  placeName: String,
+  fullness: Number,
+  isActive: Boolean,
 });
 
-module.exports = model("Device", devicesSchema);
+module.exports = mongoose.model("Device", deviceSchema);

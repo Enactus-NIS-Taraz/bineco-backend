@@ -2,13 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Device = require("../models/Device");
 const { validationResult } = require("express-validator");
+const { authenticate } = require("../middlewares/passport");
 
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
-    const { email } = req.user;
-
-    const devices = await Device.find({ owner: email });
-
+    const userId = req.user._id;
+    const devices = await Device.find({ owner: userId });
     res.status(200).json({ devices });
   } catch (error) {
     console.log(error);
