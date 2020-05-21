@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 
-// Генерация токенов
 module.exports = (payload) => {
     const token = jwt.sign(payload, config.secretKey, { expiresIn: "20m" });
     const verifyToken = jwt.verify(token, config.secretKey);

@@ -3,7 +3,7 @@ const cors = require("./cors");
 const connectDB = require("./db");
 const bodyParser = require("./bodyParser");
 const auth = require("../middlewares/passport");
-const router = require("../routes/index");
+const router = require("../routes/router");
 
 module.exports = () => {
   const app = express();

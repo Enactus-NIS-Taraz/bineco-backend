@@ -1,5 +1,4 @@
 const app = require("./loaders/app")();
-
 const config = require("./config/config");
 
 app.listen(config.port, () => {
