@@ -1,9 +1,6 @@
-// Инициализация приложения
-const app = require("./loaders/express")();
+const app = require("./loaders/app")();
+const config = require("./config/config");
 
-// Порт сервера
-const port = require("./config/config").PORT;
-
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+app.listen(config.port, () => {
+  console.log(`Server listening on port ${config.port}`);
 });

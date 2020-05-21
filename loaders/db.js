@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-// Database url
-const dbAdress = require('../config/config').DB_ADDRESS;
+const config = require('../config/config');
 
-// Database options
 const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -13,9 +11,8 @@ const options = {
 };
 
 module.exports = () => {
-    // Connecting to database
     mongoose
-        .connect(dbAdress, options)
+        .connect(config.dbUrl, options)
         .then(() => {
             console.log("MongoDB connected...");
         })
