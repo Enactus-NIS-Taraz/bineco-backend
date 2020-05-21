@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-const dbAdress = require('../config/config').DB_ADDRESS;
+const config = require('../config/config');
 
 const options = {
     useNewUrlParser: true,
@@ -12,7 +12,7 @@ const options = {
 
 module.exports = () => {
     mongoose
-        .connect(dbAdress, options)
+        .connect(config.dbUrl, options)
         .then(() => {
             console.log("MongoDB connected...");
         })

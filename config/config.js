@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 module.exports = {
-    PORT: process.env.PORT || 3000,
-    SECRET_KEY: process.env.SECRET_KEY || "very secret key:)",
-    DB_ADDRESS: process.env.DB_ADDRESS
+    port: process.env.PORT || 3000,
+    secretKey: process.env.SECRET_KEY || "very secret key:)",
+    dbUrl: process.env.DB_ADDRESS
 };

@@ -1,4 +1,4 @@
-const { SECRET_KEY } = require("../config/config");
+const config = require("../config/config");
 const passport = require("passport");
 const { ExtractJwt, Strategy } = require("passport-jwt");
 const User = require("../models/users");
@@ -44,8 +44,8 @@ const authenticate = (req, res, next) => {
 
 const getStrategy = () => {
     const params = {
-        secretOrKey: SECRET_KEY,
-        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     };
 
     return new Strategy(params, async (payload, done) => {

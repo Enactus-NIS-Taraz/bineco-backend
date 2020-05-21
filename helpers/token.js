@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = require("../config/config");
+const config = require("../config/config");
 
 // Генерация токенов
 module.exports = (payload) => {
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "20m" });
-    const verifyToken = jwt.verify(token, SECRET_KEY);
+    const token = jwt.sign(payload, config.secretKey, { expiresIn: "20m" });
+    const verifyToken = jwt.verify(token, config.secretKey);
 
     return {
         accessToken: "Bearer " + token,
