@@ -58,15 +58,17 @@ router.patch("/:deviceId", async (req, res) => {
   }
 
   try {
-    const { location, fullness, isActive, _id } = req.body;
+    const { deviceId } = req.params;
+    const { location, fullness, isActive, placeName } = req.body;
 
     const data = {
       location,
       fullness,
       isActive,
+      placeName,
     };
 
-    const updatedDevice = await Device.findByIdAndUpdate(_id, data, {
+    const updatedDevice = await Device.findByIdAndUpdate(deviceId, data, {
       new: true,
     });
 
