@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const { authenticate } = require("../middlewares/passport");
 const Workplace = require("../models/Workplace");
 
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
-    const workplace = await Workplace.find({});
+    const userId = req.user._id;
+    const workplace = await Workplace.find({ users: userId });
 
     res.status(200).json({ workplace });
   } catch (error) {

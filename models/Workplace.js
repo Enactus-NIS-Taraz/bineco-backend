@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const workplaceSchema = new mongoose.Schema({
   name: String,
-  users: Array,
-  devices: Array,
+  users: [String],
+  devices: [String],
 });
 
 module.exports = mongoose.model("Workplace", workplaceSchema);
