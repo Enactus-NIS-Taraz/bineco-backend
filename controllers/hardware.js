@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Device = require("../models/Device");
 
-router.patch("/set-fullness/:deviceId", async (req, res) => {
+router.post("/set-fullness/:deviceId", async (req, res) => {
   try {
     const deviceId = req.params.deviceId;
     const fullness = req.body.fullness;
