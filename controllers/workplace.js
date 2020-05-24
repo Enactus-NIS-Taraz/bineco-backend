@@ -51,4 +51,20 @@ router.patch("/:workplaceId", async (req, res) => {
     });
   }
 });
+
+router.delete("/:workplaceId", async (req, res) => {
+  try {
+    const { workplaceId } = req.params;
+
+    const deletedWorkplace = await Workplace.findByIdAndDelete(workplaceId);
+
+    res.status(200).json({ deletedWorkplace });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+});
 module.exports = router;
