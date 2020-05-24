@@ -20,7 +20,7 @@ router.delete("/:deviceId", async (req, res) => {
   try {
     const { deviceId } = req.params;
     const deletedHistory = await DeviceHistory.findByIdAndDelete(deviceId);
-    res.status(200).json({ deletedDevice });
+    res.status(200).json({ deletedHistory });
   } catch (error) {
     console.log(error);
     res.status(500).json({
