@@ -11,7 +11,7 @@ router.get("/", authenticate, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: error.message,
+      message: error.message || "Произошла какая-та ошибка",
     });
   }
 });
