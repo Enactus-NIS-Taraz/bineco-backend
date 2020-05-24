@@ -5,7 +5,7 @@ const Workplace = require("../models/Workplace");
 router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
-    const workplace = new Workplace(name);
+    const workplace = new Workplace({ name });
     await workplace.save();
 
     res.status(201).json({ workplace });
