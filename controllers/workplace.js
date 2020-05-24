@@ -2,6 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Workplace = require("../models/Workplace");
 
+router.get("/", async (req, res) => {
+  try {
+    const workplace = await Workplace.find({});
+
+    res.status(200).json({ workplace });
+  } catch (error) {}
+});
+
 router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
