@@ -32,4 +32,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.patch("/:workplaceId", async (req, res) => {
+  try {
+    const { workplaceId } = req.params;
+
+    const updatedWorkplace = await Workplace.findByIdAndUpdate(
+      workplaceId,
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).json({ updatedWorkplace });
+  } catch (error) {}
+});
 module.exports = router;
