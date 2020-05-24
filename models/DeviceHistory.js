@@ -4,7 +4,7 @@ const deviceHistorySchema = new mongoose.Schema(
   {
     deviceId: mongoose.ObjectId,
     fullness: Number,
-    isActive: { from: Date, to: Date },
+    isActive: Boolean,
   },
   { timestamps: { createdAt: "created_at" } }
 );
