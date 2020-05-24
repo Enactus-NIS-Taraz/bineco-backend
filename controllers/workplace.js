@@ -43,6 +43,12 @@ router.patch("/:workplaceId", async (req, res) => {
     );
 
     res.status(200).json({ updatedWorkplace });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
 });
 module.exports = router;
