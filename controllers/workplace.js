@@ -18,6 +18,20 @@ router.get("/", authenticate, async (req, res) => {
   }
 });
 
+router.get("/:workplaceId/users", async (req, res) => {
+  try {
+    const { workplaceId } = req.params;
+    const { users } = await Workplace.findById(workplaceId);
+    res.status(200).json({ users });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
