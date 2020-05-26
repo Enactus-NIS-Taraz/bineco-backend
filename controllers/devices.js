@@ -59,11 +59,10 @@ router.patch("/:deviceId", async (req, res) => {
 
   try {
     const { deviceId } = req.params;
-    const { location, fullness, isActive, placeName } = req.body;
+    const { location, isActive, placeName } = req.body;
 
     const data = {
       location,
-      fullness,
       isActive,
       placeName,
     };
