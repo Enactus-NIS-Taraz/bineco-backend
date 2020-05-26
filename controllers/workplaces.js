@@ -68,7 +68,7 @@ router.patch("/:workplaceId", async (req, res) => {
 
     const updatedWorkplace = await Workplace.findByIdAndUpdate(
       workplaceId,
-      req.body.name,
+      { name: req.body.name },
       { new: true }
     );
 
