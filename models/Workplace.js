@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const workplaceSchema = new mongoose.Schema({
   name: String,
-  users: [String],
+  users: [mongoose.ObjectId],
   devices: [String],
 });
 
