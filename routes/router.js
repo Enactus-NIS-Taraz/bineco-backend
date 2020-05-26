@@ -3,7 +3,7 @@ const auth = require("../controllers/auth");
 const devices = require("../controllers/devices");
 const hardware = require("../controllers/hardware");
 const deviceHistory = require("../controllers/devicesHistory");
-const workplace = require("../controllers/workplace");
+const workplaces = require("../controllers/workplaces");
 
 module.exports = (app) => {
   app.get("/", (req, res) => res.send("Hello from Express!"));
@@ -11,5 +11,5 @@ module.exports = (app) => {
   app.use(config.prefix + "/devices", devices);
   app.use(config.prefix + "/hardware", hardware);
   app.use(config.prefix + "/devices-history", deviceHistory);
-  app.use(config.prefix + "/workplace", workplace);
+  app.use(config.prefix + "/workplace", workplaces);
 };
