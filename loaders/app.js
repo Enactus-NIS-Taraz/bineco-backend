@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("./cors");
 const connectDB = require("./db");
 const bodyParser = require("./bodyParser");
-const auth = require("../middlewares/passport");
+const auth = require("./passport");
 const router = require("../routes/router");
 
 module.exports = () => {
@@ -10,7 +10,7 @@ module.exports = () => {
   cors(app);
   connectDB();
   bodyParser(app);
-  auth.initialize();
+  auth();
   router(app);
   return app;
 };
