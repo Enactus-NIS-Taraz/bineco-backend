@@ -1,4 +1,3 @@
-const config = require("../config/config");
 const passport = require("passport");
 
 const authenticate = (req, res, next) => {
