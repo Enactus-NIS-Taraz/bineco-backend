@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Workplace = require("../models/Workplace");
-const defineAbilitiesFor = require("../abilities/user");
 
 router.get("/", async (req, res) => {
   try {
@@ -91,7 +90,14 @@ router.delete("/:workplaceId", async (req, res) => {
   try {
     const { workplaceId } = req.params;
 
-    const deletedWorkplace = await Workplace.findByIdAndDelete(workplaceId);
+    const workplace = await Workplace.findById(workplaceId);
+    const isAdmin = workplace.isAdmin(req.user);
+
+    if (isAdmin) {
+      workplace.remove();
+      const deletedWorkplace = await workplace.save();
+      console.log(deletedWorkplace);
+    }
 
     res.status(200).json({ deletedWorkplace });
   } catch (error) {

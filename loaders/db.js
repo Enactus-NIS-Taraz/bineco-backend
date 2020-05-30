@@ -1,7 +1,5 @@
-const { accessibleRecordsPlugin } = require("@casl/mongoose");
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-mongoose.plugin(accessibleRecordsPlugin);
 
 const config = require("../config/config");
 
