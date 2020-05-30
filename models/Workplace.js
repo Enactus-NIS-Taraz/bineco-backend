@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 
-const workplaceSchema = new mongoose.Schema({
-  name: String,
-  users: [mongoose.ObjectId],
-  devices: [mongoose.ObjectId],
-  admins: [mongoose.ObjectId],
-});
+const workplaceSchema = new mongoose.Schema(
+  {
+    name: String,
+    description: String,
+    users: [mongoose.ObjectId],
+    devices: [mongoose.ObjectId],
+    admins: [mongoose.ObjectId],
+    author: mongoose.ObjectId,
+  },
+  { timestamps: { createdAt: "created_at" } }
+);
 
 workplaceSchema.methods.isAdmin = function (user) {
   const admins = this.admins;
@@ -13,7 +18,7 @@ workplaceSchema.methods.isAdmin = function (user) {
   if (admins.includes(user._id)) {
     return true;
   }
-  
+
   return false;
 };
 

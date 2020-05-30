@@ -47,8 +47,12 @@ router.get("/:workplaceId/devices", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { name } = req.body;
-    const workplace = new Workplace({ name });
+    const { name, description } = req.body;
+    const workplace = new Workplace({
+      name,
+      description,
+      author: req.user._id,
+    });
     await workplace.save();
 
     res.status(201).json({ workplace });
