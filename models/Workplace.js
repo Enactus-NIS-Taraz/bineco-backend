@@ -22,4 +22,14 @@ workplaceSchema.methods.isAdmin = function (user) {
   return false;
 };
 
+workplaceSchema.methods.isAuthor = function (user) {
+  const author = this.author;
+
+  if (author === user) {
+    return true;
+  }
+
+  return false;
+};
+
 module.exports = mongoose.model("Workplace", workplaceSchema);
