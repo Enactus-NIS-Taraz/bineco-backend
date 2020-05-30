@@ -7,6 +7,7 @@ const userSchema = new Schema(
     passwordHash: { type: String, required: true, minlength: 7 },
     firstName: { type: String, required: true, minlength: 2 },
     lastName: { type: String, required: true, minlength: 2 },
+    role: { type: String, required: true },
   },
   { timestamps: { createdAt: "created_at" } }
 );
