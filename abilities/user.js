@@ -1,11 +1,12 @@
 const { AbilityBuilder, Ability } = require("@casl/ability");
 
 function defineAbilitiesFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder();
-
-  can("manage", "devices", { author: user._id });
-  can("read", "devices");
-
+  const { can, rules } = new AbilityBuilder();
+  if (user.role === "admin") {
+    can("read", "workplaceUsers");
+    can("update", "workplace");
+    can("delete", "workplace");
+  }
   return new Ability(rules);
 }
 

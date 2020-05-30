@@ -4,6 +4,7 @@ const workplaceSchema = new mongoose.Schema({
   name: String,
   users: [mongoose.ObjectId],
   devices: [mongoose.ObjectId],
+  admins: [mongoose.ObjectId]
 });
 
 module.exports = mongoose.model("Workplace", workplaceSchema);
