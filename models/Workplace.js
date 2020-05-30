@@ -23,9 +23,9 @@ workplaceSchema.methods.isAdmin = function (user) {
 };
 
 workplaceSchema.methods.isAuthor = function (user) {
-  const author = this.author;
-
-  if (author === user) {
+  const author = String(this.author);
+  console.log(author);
+  if (author == user._id) {
     return true;
   }
 

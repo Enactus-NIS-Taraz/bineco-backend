@@ -99,15 +99,19 @@ router.delete("/:workplaceId", async (req, res) => {
     const { workplaceId } = req.params;
 
     const workplace = await Workplace.findById(workplaceId);
-    const isAdmin = workplace.isAdmin(req.user);
+    const isAuthor = workplace.isAuthor(req.user);
+    console.log(isAuthor);
 
-    if (isAdmin) {
+    if (isAuthor) {
+      const deletedWorkplace = workplace;
       workplace.remove();
-      const deletedWorkplace = await workplace.save();
-      console.log(deletedWorkplace);
+      return res.status(200).json({ deletedWorkplace });
     }
 
-    res.status(200).json({ deletedWorkplace });
+    res.status(403).json({
+      error: true,
+      message: "no access",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
