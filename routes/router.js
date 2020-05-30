@@ -4,6 +4,7 @@ const devices = require("../controllers/devices");
 const hardware = require("../controllers/hardware");
 const deviceHistory = require("../controllers/devicesHistory");
 const workplaces = require("../controllers/workplaces");
+const { authenticate } = require("../middlewares/passport");
 
 module.exports = (app) => {
   app.get("/", (req, res) => res.send("Hello from Express!"));
@@ -11,5 +12,5 @@ module.exports = (app) => {
   app.use(config.prefix + "/devices", devices);
   app.use(config.prefix + "/hardware", hardware);
   app.use(config.prefix + "/devices-history", deviceHistory);
-  app.use(config.prefix + "/workplace", workplaces);
+  app.use(config.prefix + "/workplace", authenticate, workplaces);
 };
