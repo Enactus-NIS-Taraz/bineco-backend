@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { authenticate } = require("../middlewares/passport");
 const Workplace = require("../models/Workplace");
 
-router.get("/", authenticate, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const userId = req.user._id;
     const workplace = await Workplace.find({ users: userId });
@@ -48,8 +47,16 @@ router.get("/:workplaceId/devices", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { name } = req.body;
-    const workplace = new Workplace({ name });
+    const { name, description } = req.body;
+    const currentUser = req.user._id;
+    const workplace = new Workplace({
+      name,
+      description,
+      users: currentUser,
+      admins: currentUser,
+      author: currentUser,
+    });
+
     await workplace.save();
 
     res.status(201).json({ workplace });
@@ -65,14 +72,19 @@ router.post("/", async (req, res) => {
 router.patch("/:workplaceId", async (req, res) => {
   try {
     const { workplaceId } = req.params;
+    const workplace = await Workplace.findById(workplaceId);
+    const isAdmin = workplace.isAdmin(req.user);
 
-    const updatedWorkplace = await Workplace.findByIdAndUpdate(
-      workplaceId,
-      { name: req.body.name },
-      { new: true }
-    );
+    if (isAdmin) {
+      workplace.name = req.body.name;
+      const updatedWorkplace = await workplace.save();
+      return res.status(200).json({ updatedWorkplace });
+    }
 
-    res.status(200).json({ updatedWorkplace });
+    res.status(403).json({
+      error: true,
+      message: "no access",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -86,9 +98,20 @@ router.delete("/:workplaceId", async (req, res) => {
   try {
     const { workplaceId } = req.params;
 
-    const deletedWorkplace = await Workplace.findByIdAndDelete(workplaceId);
+    const workplace = await Workplace.findById(workplaceId);
+    const isAuthor = workplace.isAuthor(req.user);
+    console.log(isAuthor);
 
-    res.status(200).json({ deletedWorkplace });
+    if (isAuthor) {
+      const deletedWorkplace = workplace;
+      workplace.remove();
+      return res.status(200).json({ deletedWorkplace });
+    }
+
+    res.status(403).json({
+      error: true,
+      message: "no access",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({

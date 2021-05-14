@@ -28,6 +28,7 @@ router.post("/login", async (req, res) => {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      role: user.role
     };
 
     const token = genToken(payload);
@@ -65,6 +66,7 @@ router.post("/register", async (req, res) => {
       firstName,
       lastName,
       passwordHash: password,
+      role: "user",
     });
 
     await newUser.save();
